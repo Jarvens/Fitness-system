@@ -23,7 +23,7 @@
       </div>
       <div class="member_search">
         <Input v-model="key" placeholder="请输入场馆名" style="width: 300px"></Input>
-        <Button type="primary" icon="ios-search" @click="search()">搜索</Button>
+        <Button type="primary" icon="ios-search" @click="searchHandler()">搜索</Button>
         <Button type="primary" icon="plus" @click="stadiumAddHandler()">创建</Button>
       </div>
     </div>
@@ -32,7 +32,19 @@
       <Page :total="page.total" :current="page.pageNo" :page-size="page.pageSize"
             @on-change="pageChangeHandler($event)"></Page>
     </div>
-
+    <!--Prompt提示框-->
+    <Modal v-model="open" width="360">
+      <p slot="header" style="color:#f60;text-align:center">
+        <Icon type="information-circled"></Icon>
+        <span>删除确认</span>
+      </p>
+      <div style="text-align:center">
+        <p>是否继续删除？</p>
+      </div>
+      <div slot="footer">
+        <Button type="error" size="large" long @click="removeConfirmHandler()">删除</Button>
+      </div>
+    </Modal>
   </div>
 
 </template>
@@ -46,7 +58,9 @@
           pageNo: 1,
           pageSize: 10,
           total: 0
-        }
+        },
+        open: false,
+        removeId: ''
       }
     },
     computed: {
@@ -85,7 +99,7 @@
           key: 'action',
           width: 250,
           align: 'center',
-          render: (h, param)=> {
+          render: (h, params)=> {
             return h('div', [
               h('Button', {
                 props: {
@@ -111,7 +125,7 @@
                 },
                 on: {
                   click: ()=> {
-                    this.update(param.index)
+                    this.update(params.row.id)
                   }
                 }
               }, '修改'),
@@ -122,7 +136,7 @@
                 },
                 on: {
                   click: () => {
-                    this.remove(params.index)
+                    this.removeHandler(params.row.id)
                   }
                 }
               }, '删除')
@@ -133,7 +147,7 @@
       }
     },
     methods: {
-      pageList(){
+      pageListHandler(){
         //查询列表事件
         let url = "/stadium/list?pageNo=" + this.page.pageNo + "&pageSize=" + this.page.pageSize + "&key=" + this.key;
         this.$http.get(url).then(res=> {
@@ -146,18 +160,36 @@
         //创建场馆事件
         this.$router.push('stadiumAdd');
       },
-      search(){
+      searchHandler(){
         //搜索事件
-        this.pageList();
+        this.pageListHandler();
       },
       pageChangeHandler(event){
         //分页事件
         this.page.pageNo = event
-        this.pageList()
+        this.pageListHandler()
+      },
+      removeHandler(data){
+        //删除事件
+        console.log(data)
+        this.removeId = data
+        this.open = true
+      },
+      removeConfirmHandler(){
+        this.open = !this.open
+        this.$http.post('/stadium/del?id=' + this.removeId).then(res=> {
+          console.log('返回结果')
+          if(res.result==1){
+            this.$Message.success(res.data)
+            this.pageListHandler()
+          }else{
+            this.$Message.error(res.data)
+          }
+        })
       }
     },
     created(){
-      this.pageList();
+      this.pageListHandler();
     }
   }
 </script>
