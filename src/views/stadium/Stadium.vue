@@ -10,6 +10,10 @@
       padding-left: 34px;
     }
   }
+
+  .stadium_page {
+    line-height: 60px;
+  }
 </style>
 <template>
   <div>
@@ -19,11 +23,16 @@
       </div>
       <div class="member_search">
         <Input v-model="key" placeholder="请输入场馆名" style="width: 300px"></Input>
-        <Button type="primary" icon="ios-search">搜索</Button>
+        <Button type="primary" icon="ios-search" @click="search()">搜索</Button>
         <Button type="primary" icon="plus" @click="stadiumAddHandler()">创建</Button>
       </div>
     </div>
     <Table :columns="stadiumColumns" :data="stadiumList"></Table>
+    <div class="stadium_page">
+      <Page :total="page.total" :current="page.pageNo" :page-size="page.pageSize"
+            @on-change="pageChangeHandler($event)"></Page>
+    </div>
+
   </div>
 
 </template>
@@ -125,15 +134,26 @@
     },
     methods: {
       pageList(){
+        //查询列表事件
         let url = "/stadium/list?pageNo=" + this.page.pageNo + "&pageSize=" + this.page.pageSize + "&key=" + this.key;
         this.$http.get(url).then(res=> {
-          console.log(res)
           this.stadiumList = res.data;
           this.page.pageNo = res.pageNo
+          this.page.total = res.total
         })
       },
       stadiumAddHandler(){
-        this.$router.push('stadiumAdd')
+        //创建场馆事件
+        this.$router.push('stadiumAdd');
+      },
+      search(){
+        //搜索事件
+        this.pageList();
+      },
+      pageChangeHandler(event){
+        //分页事件
+        this.page.pageNo = event
+        this.pageList()
       }
     },
     created(){

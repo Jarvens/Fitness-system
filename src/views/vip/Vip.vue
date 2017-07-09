@@ -113,7 +113,7 @@
           render: (h, param)=> {
           return h('Button',{
             props:{
-              type:'info',
+              type:'#dddee1',
             }
           },param.row.cardNo)
           }
