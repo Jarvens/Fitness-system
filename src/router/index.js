@@ -11,6 +11,9 @@ import GroupClass from '@/views/groupclass/GroupClass'
 import Coach from '@/views/coach/Coach.vue'
 import Activity from '@/views/activity/Activity.vue'
 import News from '@/views/news/News.vue'
+import StatisticsMain from '@/views/statistics/StatisticsMain.vue'
+import Impression from '@/views/impression/Impression.vue'
+import Meal from '@/views/meal/Meal.vue'
 
 
 Vue.use(Router)
@@ -72,20 +75,41 @@ export default new Router({
           title: '教练'
         },
         component: Coach
-      },{
-        path:'activity',
-        name:'activity',
-        meta:{
-          title:'活动'
+      }, {
+        path: 'activity',
+        name: 'activity',
+        meta: {
+          title: '活动'
         },
-        component:Activity
-      },{
-        path:'news',
-        name:'news',
-        meta:{
-          title:'发言'
+        component: Activity
+      }, {
+        path: 'news',
+        name: 'news',
+        meta: {
+          title: '发言'
         },
-        component:News
+        component: News
+      }, {
+        path: 'statistics',
+        name: 'statistics',
+        meta: {
+          title: '统计'
+        },
+        component: StatisticsMain
+      }, {
+        path: 'impression',
+        name: 'impression',
+        meta: {
+          title: '印象'
+        },
+        component: Impression
+      }, {
+        path: 'meal',
+        name: 'meal',
+        meta: {
+          title: '餐饮'
+        },
+        component: Meal
       }]
     }, {
       path: '/login',
