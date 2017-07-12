@@ -162,7 +162,7 @@
           }
         })
       },
-      pageChanged(event){
+      pageChangeHandler(event){
         this.page.pageNo=event
       }
     },
