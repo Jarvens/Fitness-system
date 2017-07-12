@@ -19,92 +19,95 @@ import Meal from '@/views/meal/Meal.vue'
 Vue.use(Router)
 
 export default new Router({
-  routes: [
+  routes: [{
+    path: '/',
+    redirect: 'login'
+  },
     {
-      path: '/',
+      path: '/index',
       name: 'Index',
       meta: {
         title: '首页'
       },
       component: Index,
       children: [{
-        path: 'member',
+        path: '/member',
         name: 'member',
         meta: {
           title: '会员'
         },
         component: Member
       }, {
-        path: 'stadium',
+        path: '/stadium',
         name: 'stadium',
         meta: {
           title: '场馆'
         },
         component: Stadium
       }, {
-        path: 'stadiumAdd',
+        path: '/stadiumAdd',
         name: 'stadiumAdd',
         meta: {
           title: '创建场馆'
         },
         component: StadiumAdd
       }, {
-        path: 'vip',
+        path: '/vip',
         name: 'vip',
         meta: {
           title: '会员卡'
         },
         component: Vip
       }, {
-        path: 'private-class',
+        path: '/private-class',
         name: 'private-class',
         meta: {
           title: '私教'
         },
         component: PrivateClass
       }, {
-        path: 'group-class',
+        path: '/group-class',
         name: 'group-class',
         meta: {
           title: '团体'
         }, component: GroupClass
       }, {
-        path: 'coach',
+        path: '/coach',
         name: 'coach',
         meta: {
           title: '教练'
         },
         component: Coach
       }, {
-        path: 'activity',
+        path: '/activity',
         name: 'activity',
         meta: {
           title: '活动'
         },
         component: Activity
       }, {
-        path: 'news',
+        path: '/news',
         name: 'news',
         meta: {
           title: '发言'
         },
         component: News
       }, {
-        path: 'statistics',
+        path: '/statistics',
         name: 'statistics',
         meta: {
           title: '统计'
         },
         component: StatisticsMain
       }, {
-        path: 'impression',
+        path: '/impression',
         name: 'impression',
         meta: {
           title: '印象'
         },
         component: Impression
       }, {
-        path: 'meal',
+        path: '/meal',
         name: 'meal',
         meta: {
           title: '餐饮'

@@ -54,8 +54,7 @@
       "header-bar": Header
     },
     created(){
-      console.log('初始化')
-//      this.$router.push('login')
+
     }
   }
 </script>

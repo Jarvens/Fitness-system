@@ -66,16 +66,17 @@
         methods: {
             handleSubmit(name) {
                 let self = this;
-                this.$refs[name].validate(function(valid){
+                this.$refs[name].validate((valid)=>{
                     if (valid) {
-                        self.$http.post('/sys/user/login', JSON.stringify(self.formInline)).then(function (res) {
-                            if (res.result==1){
-                                self.$store.commit('login',res.data);
-                                self.$router.push({path:'/'})
-                            }else {
-                                self.$Message.error(res.error.message);
-                            }
-                        })
+//                        self.$http.post('/sys/user/login', JSON.stringify(self.formInline)).then(function (res) {
+//                            if (res.result==1){
+//                                self.$store.commit('login',res.data);
+//                                self.$router.push({path:'/'})
+//                            }else {
+//                                self.$Message.error(res.error.message);
+//                            }
+//                        })
+                      this.loginCheck()
                     } else {
                         self.$Message.error('请将账号密码填写完整!');
                     }
@@ -83,14 +84,13 @@
             },
             /*登录校验*/
             loginCheck(){
-                if(localStorage.getItem('oauth')){
-                    this.$router.push({name:'index'})
-                }
+              this.$router.push('/index')
+//                if(localStorage.getItem('oauth')){
+//                    this.$router.push({name:'index'})
+//                }
             }
         },
         created(){
-          console.log('登录初始化')
-            //this.loginCheck();
         }
     }
 </script>
