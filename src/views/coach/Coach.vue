@@ -125,7 +125,7 @@
     },
     methods: {
       search(){
-        console.log('搜索')
+        this.pageListHandler()
       },
       pageListHandler(){
         let url = '/coach/list?pageNo=' + this.page.pageNo + '&pageSize=' + this.page.pageSize + '&key=' + this.key;
