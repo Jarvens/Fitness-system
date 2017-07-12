@@ -36,42 +36,55 @@
             <Option value="2">望京店</Option>
           </Select>
         </Form-item>
-        <Form-item label="类型" prop="type">
-          <!--1.月卡-->
-          <!--2.季卡-->
-          <!--3.半年卡-->
-          <!--4.年卡-->
-          <!--5.次卡-->
-          <Select v-model="vipForm.type" placeholder="请选择会员卡类型">
-            <Option value="1">月卡</Option>
-            <Option value="2">季卡</Option>
-            <Option value="3">半年卡</Option>
-            <Option value="4">年卡</Option>
-            <Option value="5">次卡</Option>
-          </Select>
-        </Form-item>
+        <Row>
+          <Col span="12">
+          <Form-item label="课时" prop="classTotal">
+            <Input v-model="vipForm.classTotal" placeholder="请输入课程数"></Input>
+          </Form-item>
+          </Col>
+          <Col span="12">
+          <Form-item label="类型" prop="type">
+            <!--1.月卡-->
+            <!--2.季卡-->
+            <!--3.半年卡-->
+            <!--4.年卡-->
+            <!--5.次卡-->
+            <Select v-model="vipForm.type" placeholder="请选择会员卡类型">
+              <Option value="1">月卡</Option>
+              <Option value="2">季卡</Option>
+              <Option value="3">半年卡</Option>
+              <Option value="4">年卡</Option>
+              <Option value="5">次卡</Option>
+            </Select>
+          </Form-item>
+          </Col>
+        </Row>
+
+
         <Form-item label="有效期">
           <Row>
-            <Col span="11">
+            <Col span="12">
             <Form-item prop="date">
               <Date-picker type="date" placeholder="选择日期" v-model="vipForm.startDate"></Date-picker>
             </Form-item>
             </Col>
-            <Col span="2" style="text-align: center">
+            <Col span="1" style="text-align: center">
             -</Col>
-            <Col span="11">
+            <Col span="10">
             <Form-item prop="time">
               <Date-picker type="date" placeholder="选择日期" v-model="vipForm.endDate"></Date-picker>
             </Form-item>
             </Col>
           </Row>
         </Form-item>
-        <Form-item label="课程数" prop="classTotal">
-          <Input v-model="vipForm.classTotal" placeholder="请输入课程数"></Input>
-        </Form-item>
-        <Form-item label="金额" prop="money">
-          <Input v-model="vipForm.money" placeholder="请输入金额"></Input>
-        </Form-item>
+        <Row>
+          <Col span="12">
+          <Form-item label="金额" prop="money">
+            <Input v-model="vipForm.money" placeholder="请输入金额"></Input>
+          </Form-item>
+          </Col>
+        </Row>
+
       </Form>
       <div slot="footer">
         <Button type="primary" @click="submitHandler('vipForm')">提交</Button>

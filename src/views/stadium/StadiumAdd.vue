@@ -132,6 +132,7 @@
       },
       save(){
         //保存场馆信息
+        console.log(this.stadiumForm)
         this.$http.post('/stadium/add', JSON.stringify(this.stadiumForm)).then(res=> {
           let data = res;
           if (data.result == 1) {

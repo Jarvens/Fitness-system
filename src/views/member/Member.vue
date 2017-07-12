@@ -22,7 +22,6 @@
   <div>
     <div class="member_header">
       <div class="member_title">
-        <Icon type="android-apps" size="30"></Icon>
         会员
       </div>
       <div class="member_search">
