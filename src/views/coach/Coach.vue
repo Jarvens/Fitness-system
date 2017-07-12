@@ -9,6 +9,9 @@
       padding-left: 34px;
     }
   }
+  .coach_page{
+    line-height: 60px;
+  }
 </style>
 <template>
   <div>
@@ -17,17 +20,21 @@
         教练
       </div>
       <div class="coach_search">
-        <Input placeholder="请输入教练姓名..." style="width: 300px"></Input>
+        <Input placeholder="请输入教练姓名..." v-model="key" style="width: 300px"></Input>
         <Button type="primary" icon="ios-search" @click="search()">搜索</Button>
         <Button type="primary" icon="plus" @click="coachAddHandler()">创建</Button>
       </div>
     </div>
     <Table :columns="coachColumns" :data="coachList"></Table>
+    <div class="coach_page">
+      <Page :total="page.total" :current="page.pageNo" :page-size="page.pageSize"
+            @on-change="pageChangeHandler($event)"></Page>
+    </div>
 
 
     <!--创建教练信息-->
     <Modal title="新增教练" v-model="coachAddModal">
-      <Form ref="coachForm" :model="coachForm" :label-width="80">
+      <Form ref="coachForm" :model="coachForm" :rules="ruleValidate" :label-width="80">
         <Row>
           <Col span="12">
           <Form-item label="姓名" prop="name">
@@ -42,8 +49,8 @@
         </Row>
         <Row>
           <Col span="12">
-          <Form-item label="机构" prop="phone">
-            <Input v-model="coachForm.phone" placeholder="请输入发证机构名称"></Input>
+          <Form-item label="机构" prop="organization">
+            <Input v-model="coachForm.organization" placeholder="请输入发证机构名称"></Input>
           </Form-item>
           </Col>
           <Col span="12">
@@ -64,7 +71,7 @@
           <Col span="12">
           <Form-item label="场馆" prop="stadiumId">
             <Select v-model="coachForm.stadiumId" placeholder="请选择场馆">
-              <Option v-for="item in stadiumList" :value="item.id"  :key="item">{{item.name}}</Option>
+              <Option v-for="stadium in stadiumList" :value="stadium.id" :key="stadium.id">{{stadium.name}}</Option>
             </Select>
           </Form-item>
           </Col>
@@ -72,12 +79,15 @@
         <Row>
           <Col span="24">
           <Form-item label="描述">
-            <Input v-model="coach.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+            <Input v-model="coachForm.description" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
                    placeholder="请输入..."></Input>
           </Form-item>
           </Col>
         </Row>
       </Form>
+      <div slot="footer">
+        <Button type="primary" @click="submitHandler('coachForm')">提交</Button>
+      </div>
     </Modal>
   </div>
 </template>
@@ -88,13 +98,41 @@
         coachList: [],
         coach: {},
         coachAddModal: false,
-        coachForm: {},
-        stadiumList: []
+        coachForm: {
+          name: '',
+          phone: '',
+          organization: '',
+          validDate: '',
+          status: '1',
+          stadiumId: '',
+          description: ''
+        },
+        stadiumList: [],
+        ruleValidate: {
+          name: [{required: true, message: '请填写教练名称', trigger: 'blur'}],
+          phone: [{required: true, message: '请填写联系电话', trigger: 'blur'}],
+          organization: [{required: true, message: '请填写认证机构', trigger: 'blur'}]
+//          validDate: [{required: true, message: '请选择有效期', trigger: 'blur'}],
+//          stadiumId: [{required: true, message: '请选择场馆', trigger: 'blur'}],
+        },
+        page: {
+          pageNo: 1,
+          pageSize: 10,
+          total: 0
+        },
+        key: ''
       }
     },
     methods: {
       search(){
         console.log('搜索')
+      },
+      pageListHandler(){
+        let url = '/coach/list?pageNo=' + this.page.pageNo + '&pageSize=' + this.page.pageSize + '&key=' + this.key;
+        this.$http.get(url).then(res=> {
+          this.coachList = res.data;
+          this.page.total=res.total;
+        })
       },
       coachAddHandler(){
         this.coachAddModal = true
@@ -104,6 +142,28 @@
         this.$http.get(url).then(res=> {
           this.stadiumList = res.data
         })
+      },
+      submitHandler(val){
+        this.$refs[val].validate((valid)=> {
+          if (valid) {
+            this.save()
+          } else {
+            this.$Message.warning('数据校验失败')
+          }
+        })
+      },
+      save(){
+        this.$http.post('/coach/add', JSON.stringify(this.coachForm)).then(res=> {
+          if (res.result == 1) {
+            this.$Message.success('新增教练成功')
+            this.pageListHandler()
+          } else {
+            this.$Message.error('新增教练失败')
+          }
+        })
+      },
+      pageChanged(event){
+        this.page.pageNo=event
       }
     },
     computed: {
@@ -133,7 +193,7 @@
       }
     },
     created(){
-      this.stadiumListHandler()
+      this.pageListHandler()
     }
   }
 </script>

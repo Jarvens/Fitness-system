@@ -17,7 +17,7 @@
         会员卡
       </div>
       <div class="vip_search">
-        <Input placeholder="请输入vip卡号" style="width: 300px"></Input>
+        <Input placeholder="请输入vip卡号" style="width: 300px" v-model="key"></Input>
         <Button type="primary" icon="ios-search" @click="search()">搜索</Button>
         <Button type="primary" icon="plus" @click="vipAddHandler()">创建</Button>
       </div>
@@ -98,7 +98,8 @@
       return {
         vipList: [],
         vipAddModal: false,
-        vipForm: {},
+        vipForm: {
+        },
         key: '',
         page: {
           pageNo: 1,
@@ -106,7 +107,7 @@
           total: 0
         },
         vipValidate: {
-          stadiumId: [{required: true, message: '请选择场馆', trgger: 'change'}],
+          stadiumId: [{required: true, message: '请选择场馆', trigger: 'change'}],
           type: [{required: true, message: '请选择会员卡类型', trigger: 'change'}],
           startDate: [{required: true, message: '请选择有效期', trigger: 'blur'}],
           endDate: [{required: true, message: '请选择有效期', trigger: 'blur'}],
