@@ -64,9 +64,7 @@
           <Col span="12">
           <Form-item label="场馆" prop="stadiumId">
             <Select v-model="coachForm.stadiumId" placeholder="请选择场馆">
-              <Option value="beijing">北京市</Option>
-              <Option value="shanghai">上海市</Option>
-              <Option value="shenzhen">深圳市</Option>
+              <Option v-for="item in stadiumList" :value="item.id"  :key="item">{{item.name}}</Option>
             </Select>
           </Form-item>
           </Col>
@@ -74,7 +72,8 @@
         <Row>
           <Col span="24">
           <Form-item label="描述">
-            <Input v-model="coach.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入..."></Input>
+            <Input v-model="coach.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                   placeholder="请输入..."></Input>
           </Form-item>
           </Col>
         </Row>
@@ -89,7 +88,8 @@
         coachList: [],
         coach: {},
         coachAddModal: false,
-        coachForm: {}
+        coachForm: {},
+        stadiumList: []
       }
     },
     methods: {
@@ -98,6 +98,12 @@
       },
       coachAddHandler(){
         this.coachAddModal = true
+      },
+      stadiumListHandler(){
+        let url = '/stadium/allStadium'
+        this.$http.get(url).then(res=> {
+          this.stadiumList = res.data
+        })
       }
     },
     computed: {
@@ -125,6 +131,9 @@
         });
         return columns;
       }
+    },
+    created(){
+      this.stadiumListHandler()
     }
   }
 </script>

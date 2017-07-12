@@ -68,7 +68,7 @@
             </Row>
             <Row>
               <Col span="10">
-              <Form-item label="性别" prop="status">
+              <Form-item label="状态" prop="status">
                 <Radio-group v-model="stadiumForm.status">
                   <Radio label="1">启用</Radio>
                   <Radio label="0">停用</Radio>
