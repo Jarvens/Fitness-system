@@ -29,7 +29,7 @@
         <Button type="primary" icon="ios-search">搜索</Button>
       </div>
     </div>
-    <Table :columns="memberColumns" :data="data1"></Table>
+    <Table :columns="memberColumns" :data="memberList"></Table>
     <div class="page">
       <Page :total="100"></Page>
     </div>
@@ -41,66 +41,56 @@
   export default {
     data () {
       return {
-        columns1: [
-          {
-            title: '姓名',
-            key: 'name'
-          },
-          {
-            title: '年龄',
-            key: 'age'
-          },
-          {
-            title: '地址',
-            key: 'address'
-          }
-        ],
-        data1: [
-          {
-            name: '王小明',
-            age: 18,
-            address: '北京市朝阳区芍药居'
-          },
-          {
-            name: '张小刚',
-            age: 25,
-            address: '北京市海淀区西二旗'
-          },
-          {
-            name: '李小红',
-            age: 30,
-            address: '上海市浦东新区世纪大道'
-          },
-          {
-            name: '周小伟',
-            age: 26,
-            address: '深圳市南山区深南大道'
-          }
-        ]
+        memberList:[],
+        page:{
+          pageNo:1,
+          pageSize:10,
+          total:0
+        },
+        key:''
+      }
+    },
+    methods:{
+      pageListHandler(){
+        this.$http.get('/member/list?pageNo='+this.page.pageNo+"&pageSize="+this.page.pageSize+"&key="+this.key).then(res=>{
+          console.log('返回数据')
+          this.memberList=res.data
+        console.log(this.memberList)
+        })
       }
     },
     computed: {
       memberColumns(){
         let columns = []
         columns.push({
-          title: '序号',
-          key: 'index'
-        });
-        columns.push({
-          title: '头像',
-          key: 'memberImg'
-        });
-        columns.push({
           title: '姓名',
-          key: 'name'
+          key: 'name',
+          align:'center'
         });
         columns.push({
-          title: '联系电话',
-          key: 'phone'
+          title: '性别',
+          key: 'sex',
+          align:'center'
+        });
+        columns.push({
+          title: '会员卡号码',
+          key: 'memberCard',
+          align:'center'
+        });
+        columns.push({
+          title: '账号',
+          key: 'phone',
+          align:'center'
+        });
+        columns.push({
+          title: '电话',
+          key: 'tel',
+          align:'center'
         });
         columns.push({
           title: '状态',
-          key: 'status'
+          key: 'status',
+          align:'center'
         });
         columns.push({
           title: '操作',
@@ -153,6 +143,9 @@
         })
         return columns;
       }
+    },
+    created(){
+      this.pageListHandler()
     }
   }
 </script>
