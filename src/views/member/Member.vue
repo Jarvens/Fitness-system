@@ -31,8 +31,19 @@
     </div>
     <Table :columns="memberColumns" :data="memberList"></Table>
     <div class="page">
-      <Page :total="100"></Page>
+      <Page :total="page.total" :current="page.pageNo" :page-size="page.pageSize"
+            @on-change="pageChangeHandler($event)"></Page>
     </div>
+
+    <!--选择会员卡-->
+    <Modal title="选择会员卡" width="200" v-model="memberCardModal" :closeable="false" :mask-closable="false">
+      <Select v-model="memberCard" placeholder="请选择">
+        <Option :value="item.id" :key="item.id" v-for="item in memberCardList">{{item.typeName}}-{{item.money}}</Option>
+      </Select>
+      <div slot="footer">
+        <Button type="error" @click="bindMemberCard">确定</Button>
+      </div>
+    </Modal>
   </div>
 
 </template>
@@ -47,15 +58,51 @@
           pageSize:10,
           total:0
         },
-        key:''
+        key:'',
+        memberCardModal:false,
+        memberCard:'',
+        memberCardList:[],
+        member:{}
       }
     },
     methods:{
+      //分页方法
       pageListHandler(){
         this.$http.get('/member/list?pageNo='+this.page.pageNo+"&pageSize="+this.page.pageSize+"&key="+this.key).then(res=>{
-          console.log('返回数据')
+          console.log(res.data)
           this.memberList=res.data
-        console.log(this.memberList)
+          this.page.total=res.total
+          this.page.pageNo=res.pageNo
+        })
+      },
+      //页码改变事件
+      pageChangeHandler(event){
+        this.page.pageNo=event
+        this.pageListHandler()
+      },
+      //打开选择会员卡模态
+      selectMemberCard(param){
+        this.member=param.row
+        this.$http.get('/memberCard/cardList?stadiumId='+param.row.stadiumId).then(res=>{
+          this.memberCardList=res.data
+        })
+        this.memberCardModal=true
+      },
+      //绑定会员卡
+      bindMemberCard(){
+        console.log(this.member)
+        if(!this.memberCard){
+          this.$Message.warning('请选择会员卡类型')
+          return
+        }
+        this.member.memberCardId=this.memberCard
+        this.$http.post('/member/update',JSON.stringify(this.member)).then(res=>{
+          if(res.result==1){
+            this.$Message.success('绑卡成功')
+            this.pageListHandler()
+          }else{
+            this.$Message.error('绑卡失败')
+          }
         })
       }
     },
@@ -74,7 +121,7 @@
         });
         columns.push({
           title: '会员卡号码',
-          key: 'memberCard',
+          key: 'memberCardNo',
           align:'center'
         });
         columns.push({
@@ -123,10 +170,10 @@
                 },
                 on: {
                   click: ()=> {
-                    this.update(param.index)
+                    this.selectMemberCard(param)
                   }
                 }
-              }, '修改'),
+              }, '绑卡'),
               h('Button', {
                 props: {
                   type: 'error',
@@ -137,7 +184,7 @@
                     this.remove(params.index)
                   }
                 }
-              }, '删除')
+              }, '注销')
             ]);
           }
         })
