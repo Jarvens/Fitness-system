@@ -161,12 +161,62 @@
         columns.push({
           title: '有效期',
           key: 'validDate',
-          align: 'center'
+          align: 'center',
+          width:200
+        });
+        columns.push({
+          title:'状态',
+          key:'status',
+          align:'center',
+          render:(h,params)=>{
+            const row = params.row;
+            const color = row.status === '1' ? 'green' : 'red'
+            const text = row.status === '1' ? '未绑' : '已绑'
+            return h('Tag', {
+              props: {
+                type: 'dot',
+                color: color
+              }
+            }, text);
+          }
         });
         columns.push({
           title: '操作',
           key: 'action',
-          align: 'center'
+          align: 'center',
+          render: (h, param)=> {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.show(params.index)
+                  }
+                }
+              }, '修改'),
+              h('Button', {
+                props: {
+                  type: 'error',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: ()=> {
+                    this.selectMemberCard(param)
+                  }
+                }
+              }, '删除'),
+
+            ]);
+          }
         })
         return columns;
       }
