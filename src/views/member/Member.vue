@@ -37,14 +37,14 @@
     </div>
 
     <!--选择会员卡-->
-    <Modal title="选择会员卡" width="200" v-model="memberCardModal" :closeable="false" :mask-closable="false">
-      <Select v-model="memberCard" placeholder="请选择">
-        <Option :value="item.id" :key="item.id" v-for="item in memberCardList">{{item.typeName}}-{{item.money}}</Option>
-      </Select>
-      <div slot="footer">
-        <Button type="primary" @click="bindMemberCard">确定</Button>
-      </div>
-    </Modal>
+    <!--<Modal title="选择会员卡" width="200" v-model="memberCardModal" :closeable="false" :mask-closable="false">-->
+      <!--<Select v-model="memberCard" placeholder="请选择">-->
+        <!--<Option :value="item.id" :key="item.id" v-for="item in memberCardList">{{item.typeName}}-{{item.money}}</Option>-->
+      <!--</Select>-->
+      <!--<div slot="footer">-->
+        <!--<Button type="primary" @click="bindMemberCard">确定</Button>-->
+      <!--</div>-->
+    <!--</Modal>-->
 
 
     <!--修改会员信息-->
@@ -96,44 +96,44 @@
 
     <!--会员修改模态-->
     <Modal title="会员修改" v-model="modifyModal" width="1000">
-      <Form ref="member" :model="member" :rules="memberValidate" :label-width="80">
+      <Form ref="modifyMember" :model="modifyMember" :rules="modifyValidate" :label-width="80">
         <Row>
           <Col span="8">
           <img src="" alt="头像" style="height: 140px;width: 140px;">
           </Col>
           <Col span="8">
           <Form-item label="姓名" prop="name">
-            <Input v-model="member.name" placeholder="请输入姓名"></Input>
+            <Input v-model="modifyMember.name" placeholder="请输入姓名"></Input>
           </Form-item>
           </Col>
           <Col span="8">
           <Form-item label="手机" prop="phone">
-            <Input v-model="member.phone" placeholder="请输入手机"></Input>
+            <Input v-model="modifyMember.phone" placeholder="请输入手机"></Input>
           </Form-item>
           </Col>
           <Col span="8">
           <Form-item label="生日" prop="bornDate">
-            <Date-picker style="width:250px;" type="date" placeholder="选择日期" v-model="member.bornDate"></Date-picker>
+            <Date-picker style="width:250px;" type="date" placeholder="选择日期" v-model="modifyMember.bornDate"></Date-picker>
           </Form-item>
           </Col>
           <Col span="8">
           <Form-item label="联系电话" prop="tel">
-            <Input v-model="member.tel" placeholder="请输入联系电话"></Input>
+            <Input v-model="modifyMember.tel" placeholder="请输入联系电话"></Input>
           </Form-item>
           </Col>
           <Col span="8">
           <Form-item label="年龄" prop="age">
-            <Input v-model="member.age" placeholder="请输入年龄"></Input>
+            <Input v-model="modifyMember.age" placeholder="请输入年龄"></Input>
           </Form-item>
           </Col>
           <Col span="8">
           <Form-item label="昵称" prop="mail">
-            <Input v-model="member.mail" placeholder="请输入昵称"></Input>
+            <Input v-model="modifyMember.mail" placeholder="请输入昵称"></Input>
           </Form-item>
           </Col>
           <Col span="6">
           <Form-item label="状态" prop="status">
-            <Select v-model="member.status" placeholder="请选择状态">
+            <Select v-model="modifyMember.status" placeholder="请选择状态">
               <Option value="1">正常</Option>
               <Option value="2">审核不通过</Option>
               <Option value="3">注销</Option>
@@ -142,33 +142,33 @@
           </Col>
           <Col span="6">
           <Form-item label="场馆" prop="stadiumId">
-            <Select v-model="member.stadiumId" placeholder="请选择场馆" @on-change="stadiumChangeHandler()">
+            <Select v-model="modifyMember.stadiumId" placeholder="请选择场馆" @on-change="stadiumChangeHandler()">
               <Option :value="stadium.id" :key="stadium.id" v-for="stadium in stadiumList">{{stadium.name}}</Option>
             </Select>
           </Form-item>
           </Col>
           <Col span="6">
           <Form-item label="邮箱" prop="email">
-            <Input v-model="member.email" placeholder="请输入邮箱"></Input>
+            <Input v-model="modifyMember.email" placeholder="请输入邮箱"></Input>
           </Form-item>
           </Col>
           <Col span="6">
           <Form-item label="证件号码" prop="identityCard">
-            <Input v-model="member.identityCard" placeholder="请输入证件号码"></Input>
+            <Input v-model="modifyMember.identityCard" placeholder="请输入证件号码"></Input>
           </Form-item>
           </Col>
         </Row>
         <Row>
           <Col span="6">
           <Form-item label="会员卡" prop="memberCardId">
-            <Select v-model="member.memberCardId" placeholder="请选择会员卡">
+            <Select v-model="modifyMember.memberCardId" placeholder="请选择会员卡">
               <Option :value="card.id" :key="card.id" v-for="card in memberCardList">{{card.typeName}}-{{card.money}}</Option>
             </Select>
           </Form-item>
           </Col>
           <Col span="6">
           <Form-item label="性别" prop="sex">
-            <Select v-model="member.sex" placeholder="请选择性别">
+            <Select v-model="modifyMember.sex" placeholder="请选择性别">
               <Option value="1">男</Option>
               <Option value="0">女</Option>
             </Select>
@@ -176,14 +176,14 @@
           </Col>
           <Col span="12">
           <Form-item label="备注" prop="remark">
-            <Input v-model="member.remark" placeholder="请输入备注"></Input>
+            <Input v-model="modifyMember.remark" placeholder="请输入备注"></Input>
           </Form-item>
           </Col>
         </Row>
         <Row>
           <Col span="24">
           <Form-item label="联系地址" prop="address">
-            <Input v-model="member.address" placeholder="请输入联系地址"></Input>
+            <Input v-model="modifyMember.address" placeholder="请输入联系地址"></Input>
           </Form-item>
           </Col>
         </Row>
@@ -223,7 +223,19 @@
         memberValidate:{
 
         },
-        modifyModal:false
+        modifyModal:false,
+        modifyMember:{
+        },
+        modifyValidate: {
+          name:[{required:true,message:'请输入姓名',trigger:'blur'}],
+          phone:[{required:true,message:'请输入手机号',trigger:'blur'}],
+          tel:[{required:true,message:'请输入联系电话',trigger:'blur'}],
+          status:[{required:true,message:'请选择状态',trigger:'change'}],
+          stadiumId:[{required:true,message:'请选择场馆',trigger:'change'},{type:'number'}],
+          identityCard:[{required:true,message:'请输入证件号码',trigger:'blur'}],
+//          memberCardId:[{required:true,message:'请选择会员卡',trigger:'change'}],
+          sex:[{required:true,message:'请选择性别',trigger:'change'}]
+        },
       }
     },
     methods:{
@@ -242,30 +254,30 @@
         this.pageListHandler()
       },
       //打开选择会员卡模态
-      selectMemberCard(param){
-        this.member=param.row
-        this.$http.get('/memberCard/cardList?stadiumId='+param.row.stadiumId).then(res=>{
-          this.memberCardList=res.data
-        })
-        this.memberCardModal=true
-      },
+//      selectMemberCard(param){
+//        this.member=param.row
+//        this.$http.get('/memberCard/cardList?stadiumId='+param.row.stadiumId).then(res=>{
+//          this.memberCardList=res.data
+//        })
+//        this.memberCardModal=true
+//      },
       //绑定会员卡
-      bindMemberCard(){
-        console.log(this.member)
-        if(!this.memberCard){
-          this.$Message.warning('请选择会员卡类型')
-          return
-        }
-        this.member.memberCardId=this.memberCard
-        this.$http.post('/member/update',JSON.stringify(this.member)).then(res=>{
-          if(res.result==1){
-            this.$Message.success('绑卡成功')
-            this.pageListHandler()
-          }else{
-            this.$Message.error('绑卡失败')
-          }
-        })
-      },
+//      bindMemberCard(){
+//        console.log(this.member)
+//        if(!this.memberCard){
+//          this.$Message.warning('请选择会员卡类型')
+//          return
+//        }
+//        this.member.memberCardId=this.memberCard
+//        this.$http.post('/member/update',JSON.stringify(this.member)).then(res=>{
+//          if(res.result==1){
+//            this.$Message.success('绑卡成功')
+//            this.pageListHandler()
+//          }else{
+//            this.$Message.error('绑卡失败')
+//          }
+//        })
+//      },
       //跳转登录页面
       toRegister(){
         this.$router.push('register')
@@ -286,16 +298,42 @@
           }
         })
       },
+      //修改提交先进行校验操作
       submitValidate(val){
 
       },
+      //修改按钮操作  打开修改模态 赋值 查询场馆列表
       toModifyMember(param){
-        this.member =param.row
+        this.memberInfoHandler(param.row.id)
+        console.log('修改打印')
+        console.log(param)
+        this.stadiumListHandler()
         this.modifyModal=true
       },
+      //选择场馆事件 调用查询会员卡事件
       stadiumChangeHandler(){
-
+        this.memberCardListHandler()
+      },
+      //根据场馆id查询会员卡
+      memberCardListHandler(){
+        this.$http.get('/memberCard/cardList?stadiumId='+this.memberForm.stadiumId).then(res=>{
+          this.memberCardList=res.data
+        })
+      },
+      //查询场馆列表
+      stadiumListHandler(){
+        this.$http.get('/stadium/allStadium').then(res=> {
+          this.stadiumList = res.data
+        })
+      },
+      //根据会员id查询会员详情
+      memberInfoHandler(id){
+        this.$http.get('/member/memberInfo?id='+id).then(res=>{
+          this.modifyMember = res.data
+          console.log(this.modifyMember)
+        })
       }
+
     },
     computed: {
       memberColumns(){
@@ -362,20 +400,20 @@
                   }
                 }
               }, '修改'),
-              h('Button', {
-                props: {
-                  type: 'info',
-                  size: 'small'
-                },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: ()=> {
-                    this.selectMemberCard(param)
-                  }
-                }
-              }, '绑卡'),
+//              h('Button', {
+//                props: {
+//                  type: 'info',
+//                  size: 'small'
+//                },
+//                style: {
+//                  marginRight: '5px'
+//                },
+//                on: {
+//                  click: ()=> {
+//                    this.selectMemberCard(param)
+//                  }
+//                }
+//              }, '绑卡'),
               h('Button', {
                 props: {
                   type: 'error',
