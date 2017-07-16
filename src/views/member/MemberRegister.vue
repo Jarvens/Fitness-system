@@ -37,18 +37,18 @@
           </Form-item>
           </Col>
           <Col span="8">
-          <Form-item label="手机" prop="mail">
-            <Input v-model="memberForm.mail" placeholder="请输入手机"></Input>
+          <Form-item label="手机" prop="phone">
+            <Input v-model="memberForm.phone" placeholder="请输入手机"></Input>
           </Form-item>
           </Col>
           <Col span="8">
-          <Form-item label="生日" prop="date">
-            <Date-picker style="width:250px;" type="date" placeholder="选择日期" v-model="memberForm.date"></Date-picker>
+          <Form-item label="生日" prop="bornDate">
+            <Date-picker style="width:250px;" type="date" placeholder="选择日期" v-model="memberForm.bornDate"></Date-picker>
           </Form-item>
           </Col>
           <Col span="8">
-          <Form-item label="联系电话" prop="mail">
-            <Input v-model="memberForm.mail" placeholder="请输入联系电话"></Input>
+          <Form-item label="联系电话" prop="tel">
+            <Input v-model="memberForm.tel" placeholder="请输入联系电话"></Input>
           </Form-item>
           </Col>
           <Col span="8">
@@ -63,7 +63,7 @@
           </Col>
           <Col span="6">
           <Form-item label="状态" prop="status">
-            <Select v-model="memberForm.city" placeholder="请选择状态">
+            <Select v-model="memberForm.status" placeholder="请选择状态">
               <Option value="1">正常</Option>
               <Option value="2">审核不通过</Option>
               <Option value="3">注销</Option>
@@ -78,20 +78,20 @@
           </Form-item>
           </Col>
           <Col span="6">
-          <Form-item label="邮箱" prop="mail">
-            <Input v-model="memberForm.mail" placeholder="请输入昵称"></Input>
+          <Form-item label="邮箱" prop="email">
+            <Input v-model="memberForm.email" placeholder="请输入邮箱"></Input>
           </Form-item>
           </Col>
           <Col span="6">
-          <Form-item label="证件号码" prop="mail">
-            <Input v-model="memberForm.mail" placeholder="请输入昵称"></Input>
+          <Form-item label="证件号码" prop="identityCard">
+            <Input v-model="memberForm.identityCard" placeholder="请输入证件号码"></Input>
           </Form-item>
           </Col>
         </Row>
         <Row>
           <Col span="6">
           <Form-item label="会员卡" prop="memberCardId">
-            <Select v-model="memberForm.city" placeholder="请选择会员卡">
+            <Select v-model="memberForm.memberCardId" placeholder="请选择会员卡">
               <Option :value="item.id" :key="item.id" v-for="item in memberCardList">{{item.typeName}}-{{item.money}}</Option>
             </Select>
           </Form-item>
@@ -105,21 +105,21 @@
           </Form-item>
           </Col>
           <Col span="12">
-          <Form-item label="备注" prop="mail">
-            <Input v-model="memberForm.mail" placeholder="请输入备注"></Input>
+          <Form-item label="备注" prop="remark">
+            <Input v-model="memberForm.remark" placeholder="请输入备注"></Input>
           </Form-item>
           </Col>
         </Row>
         <Row>
           <Col span="24">
-          <Form-item label="联系地址" prop="mail">
-            <Input v-model="memberForm.mail" placeholder="请输入联系地址"></Input>
+          <Form-item label="联系地址" prop="address">
+            <Input v-model="memberForm.address" placeholder="请输入联系地址"></Input>
           </Form-item>
           </Col>
         </Row>
         <Row>
           <Col span="8" offset="8">
-          <Button type="primary" long>确定</Button>
+          <Button type="primary" long @click="submitValidate('memberForm')">确定</Button>
           </Col>
         </Row>
       </Form>
@@ -130,8 +130,25 @@
   export default{
     data(){
       return {
-        memberForm: {},
-        memberValidate: {},
+        memberForm: {
+          name:'',
+          phone:'',
+          tel:'',
+          status:'1',
+          sex:'1',
+          stadiumId:'',
+          memberCardId:''
+        },
+        memberValidate: {
+          name:[{required:true,message:'请输入姓名',trigger:'blur'}],
+          phone:[{required:true,message:'请输入手机号',trigger:'blur'}],
+          tel:[{required:true,message:'请输入联系电话',trigger:'blur'}],
+          status:[{required:true,message:'请选择状态',trigger:'change'}],
+          stadiumId:[{required:true,message:'请选择场馆',trigger:'change'}],
+          identityCard:[{required:true,message:'请输入证件号码',trigger:'blur'}],
+          memberCardId:[{required:true,message:'请选择会员卡',trigger:'change'}],
+          sex:[{required:true,message:'请选择性别',trigger:'change'}]
+        },
         stadiumList: [],
         memberCardList: [],
 
@@ -150,6 +167,11 @@
       },
       stadiumChangeHandler(){
         this.memberCardListHandler()
+      },
+      submitValidate(val){
+        this.$refs[val].validate((valid)=>{
+          console.log(valid)
+        })
       }
     },
     created(){
