@@ -52,8 +52,8 @@
           </Form-item>
           </Col>
           <Col span="8">
-          <Form-item label="年龄" prop="mail">
-            <Input v-model="memberForm.mail" placeholder="请输入年龄"></Input>
+          <Form-item label="年龄" prop="age">
+            <Input v-model="memberForm.age" placeholder="请输入年龄"></Input>
           </Form-item>
           </Col>
           <Col span="8">
@@ -73,7 +73,7 @@
           <Col span="6">
           <Form-item label="场馆" prop="stadiumId">
             <Select v-model="memberForm.stadiumId" placeholder="请选择场馆" @on-change="stadiumChangeHandler()">
-              <Option :value="item.id" :key="item.id" v-for="item in stadiumList">{{item.name}}</Option>
+              <Option :value="stadium.id" :key="stadium.id" v-for="stadium in stadiumList">{{stadium.name}}</Option>
             </Select>
           </Form-item>
           </Col>
@@ -92,7 +92,7 @@
           <Col span="6">
           <Form-item label="会员卡" prop="memberCardId">
             <Select v-model="memberForm.memberCardId" placeholder="请选择会员卡">
-              <Option :value="item.id" :key="item.id" v-for="item in memberCardList">{{item.typeName}}-{{item.money}}</Option>
+              <Option :value="card.id" :key="card.id" v-for="card in memberCardList">{{card.typeName}}-{{card.money}}</Option>
             </Select>
           </Form-item>
           </Col>
@@ -144,9 +144,9 @@
           phone:[{required:true,message:'请输入手机号',trigger:'blur'}],
           tel:[{required:true,message:'请输入联系电话',trigger:'blur'}],
           status:[{required:true,message:'请选择状态',trigger:'change'}],
-          stadiumId:[{required:true,message:'请选择场馆',trigger:'change'}],
+//          stadiumId:[{required:true,message:'请选择场馆',trigger:'change'}],
           identityCard:[{required:true,message:'请输入证件号码',trigger:'blur'}],
-          memberCardId:[{required:true,message:'请选择会员卡',trigger:'change'}],
+//          memberCardId:[{required:true,message:'请选择会员卡',trigger:'change'}],
           sex:[{required:true,message:'请选择性别',trigger:'change'}]
         },
         stadiumList: [],
@@ -170,7 +170,18 @@
       },
       submitValidate(val){
         this.$refs[val].validate((valid)=>{
-          console.log(valid)
+          if(valid){
+            this.register()
+          }
+        })
+      },
+      register(){
+        this.$http.post('/member/register',JSON.stringify(this.memberForm)).then(res=>{
+          if(res.result==1){
+            this.$Message.success('注册成功')
+          }else{
+            console.log(res)
+          }
         })
       }
     },

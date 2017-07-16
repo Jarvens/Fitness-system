@@ -156,7 +156,12 @@
         columns.push({
           title: '性别',
           key: 'sex',
-          align:'center'
+          align:'center',
+          render:(h,params)=>{
+            const row = params.row
+            const text = row.sex=='1'?'男':'女'
+            return h('span',text)
+          }
         });
         columns.push({
           title: '会员卡号码',
@@ -176,7 +181,12 @@
         columns.push({
           title: '状态',
           key: 'status',
-          align:'center'
+          align:'center',
+          render:(h,params)=>{
+            const value = params.row.status
+            const text = value=='1'?'正常':value=='2'?'审核中':value=='3'?'审核不通过':'注销'
+            return h('span',text)
+          }
         });
         columns.push({
           title: '操作',
