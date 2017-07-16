@@ -27,6 +27,7 @@
       <div class="member_search">
         <Input placeholder="请输入会员账号或姓名" style="width: 300px"></Input>
         <Button type="primary" icon="ios-search">搜索</Button>
+        <Button type="primary" icon="plus" @click="toRegister()">注册</Button>
       </div>
     </div>
     <Table :columns="memberColumns" :data="memberList"></Table>
@@ -41,11 +42,42 @@
         <Option :value="item.id" :key="item.id" v-for="item in memberCardList">{{item.typeName}}-{{item.money}}</Option>
       </Select>
       <div slot="footer">
-        <Button type="error" @click="bindMemberCard">确定</Button>
+        <Button type="primary" @click="bindMemberCard">确定</Button>
+      </div>
+    </Modal>
+
+
+    <!--修改会员信息-->
+    <Modal title="会员" v-model="memberInfoModal" :closeable="false" :mask-closable="false">
+      <Form ref="member" :model="member" :rules="ruleValidate" :label-width="80">
+        <Row>
+          <Col span="4">
+          <img src="" alt="头像" style="width: 80px;height: 80px;">
+          </Col>
+          <Col span="10">
+          <Form-item label="手机" prop="phone">
+            <Input v-model="member.phone" placeholder="请输入手机号"></Input>
+          </Form-item>
+          </Col>
+          <Col span="10">
+          <Form-item label="姓名" prop="name">
+            <Input v-model="member.name" placeholder="请输入姓名"></Input>
+          </Form-item>
+          </Col>
+          <Row>
+            <Col span="10">
+            <Form-item label="场馆" prop="mail">
+              <Input v-model="member.mail" placeholder="请输入邮箱"></Input>
+            </Form-item>
+            </Col>
+          </Row>
+        </Row>
+      </Form>
+      <div slot="footer">
+        <Button type="primary" >确定</Button>
       </div>
     </Modal>
   </div>
-
 </template>
 
 <script>
@@ -62,7 +94,11 @@
         memberCardModal:false,
         memberCard:'',
         memberCardList:[],
-        member:{}
+        member:{},
+        memberInfoModal:false,
+        ruleValidate:{
+
+        }
       }
     },
     methods:{
@@ -104,6 +140,9 @@
             this.$Message.error('绑卡失败')
           }
         })
+      },
+      toRegister(){
+        this.$router.push('register')
       }
     },
     computed: {
@@ -156,10 +195,11 @@
                 },
                 on: {
                   click: () => {
+                    this.memberInfoModal=true
                     this.show(params.index)
                   }
                 }
-              }, '查看'),
+              }, '修改'),
               h('Button', {
                 props: {
                   type: 'info',

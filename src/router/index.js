@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/views/index.vue'
 import Member from '@/views/member/Member.vue'
+import MemberRegister from '@/views/member/MemberRegister.vue'
 import Stadium from '@/views/stadium/Stadium.vue'
 import StadiumAdd from '@/views/stadium/StadiumAdd.vue'
 import Vip from '@/views/vip/Vip.vue'
@@ -37,6 +38,13 @@ export default new Router({
           title: '会员'
         },
         component: Member
+      }, {
+        path: '/register',
+        name: '注册',
+        meta: {
+          title: '注册'
+        },
+        component: MemberRegister
       }, {
         path: '/stadium',
         name: 'stadium',

@@ -149,7 +149,7 @@
           }
         });
         columns.push({
-          title: '课程数',
+          title: '课程数(次)',
           key: 'classTotal',
           align: 'center'
         });
