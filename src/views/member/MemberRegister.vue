@@ -26,44 +26,44 @@
       </div>
     </div>
     <div class="content">
-      <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+      <Form ref="memberForm" :model="memberForm" :rules="memberValidate" :label-width="80">
         <Row>
           <Col span="8">
           <img src="" alt="头像" style="height: 140px;width: 140px;">
           </Col>
           <Col span="8">
           <Form-item label="姓名" prop="name">
-            <Input v-model="formValidate.name" placeholder="请输入姓名"></Input>
+            <Input v-model="memberForm.name" placeholder="请输入姓名"></Input>
           </Form-item>
           </Col>
           <Col span="8">
           <Form-item label="手机" prop="mail">
-            <Input v-model="formValidate.mail" placeholder="请输入手机"></Input>
+            <Input v-model="memberForm.mail" placeholder="请输入手机"></Input>
           </Form-item>
           </Col>
           <Col span="8">
           <Form-item label="生日" prop="date">
-            <Date-picker style="width:250px;" type="date" placeholder="选择日期" v-model="formValidate.date"></Date-picker>
+            <Date-picker style="width:250px;" type="date" placeholder="选择日期" v-model="memberForm.date"></Date-picker>
           </Form-item>
           </Col>
           <Col span="8">
           <Form-item label="联系电话" prop="mail">
-            <Input v-model="formValidate.mail" placeholder="请输入联系电话"></Input>
+            <Input v-model="memberForm.mail" placeholder="请输入联系电话"></Input>
           </Form-item>
           </Col>
           <Col span="8">
           <Form-item label="年龄" prop="mail">
-            <Input v-model="formValidate.mail" placeholder="请输入年龄"></Input>
+            <Input v-model="memberForm.mail" placeholder="请输入年龄"></Input>
           </Form-item>
           </Col>
           <Col span="8">
           <Form-item label="昵称" prop="mail">
-            <Input v-model="formValidate.mail" placeholder="请输入昵称"></Input>
+            <Input v-model="memberForm.mail" placeholder="请输入昵称"></Input>
           </Form-item>
           </Col>
           <Col span="6">
           <Form-item label="状态" prop="status">
-            <Select v-model="formValidate.city" placeholder="请选择状态">
+            <Select v-model="memberForm.city" placeholder="请选择状态">
               <Option value="1">正常</Option>
               <Option value="2">审核不通过</Option>
               <Option value="3">注销</Option>
@@ -71,38 +71,34 @@
           </Form-item>
           </Col>
           <Col span="6">
-          <Form-item label="会员卡" prop="city">
-            <Select v-model="formValidate.city" placeholder="请选择所在地">
-              <Option value="beijing">北京市</Option>
-              <Option value="shanghai">上海市</Option>
-              <Option value="shenzhen">深圳市</Option>
+          <Form-item label="场馆" prop="stadiumId">
+            <Select v-model="memberForm.stadiumId" placeholder="请选择场馆" @on-change="stadiumChangeHandler()">
+              <Option :value="item.id" :key="item.id" v-for="item in stadiumList">{{item.name}}</Option>
             </Select>
           </Form-item>
           </Col>
           <Col span="6">
           <Form-item label="邮箱" prop="mail">
-            <Input v-model="formValidate.mail" placeholder="请输入昵称"></Input>
+            <Input v-model="memberForm.mail" placeholder="请输入昵称"></Input>
           </Form-item>
           </Col>
           <Col span="6">
           <Form-item label="证件号码" prop="mail">
-            <Input v-model="formValidate.mail" placeholder="请输入昵称"></Input>
+            <Input v-model="memberForm.mail" placeholder="请输入昵称"></Input>
           </Form-item>
           </Col>
         </Row>
         <Row>
           <Col span="6">
-          <Form-item label="场馆" prop="city">
-            <Select v-model="formValidate.city" placeholder="请选择所在地">
-              <Option value="beijing">北京市</Option>
-              <Option value="shanghai">上海市</Option>
-              <Option value="shenzhen">深圳市</Option>
+          <Form-item label="会员卡" prop="memberCardId">
+            <Select v-model="memberForm.city" placeholder="请选择会员卡">
+              <Option :value="item.id" :key="item.id" v-for="item in memberCardList">{{item.typeName}}-{{item.money}}</Option>
             </Select>
           </Form-item>
           </Col>
           <Col span="6">
           <Form-item label="性别" prop="sex">
-            <Select v-model="formValidate.sex" placeholder="请选择性别">
+            <Select v-model="memberForm.sex" placeholder="请选择性别">
               <Option value="1">男</Option>
               <Option value="0">女</Option>
             </Select>
@@ -110,15 +106,20 @@
           </Col>
           <Col span="12">
           <Form-item label="备注" prop="mail">
-            <Input v-model="formValidate.mail" placeholder="请输入备注"></Input>
+            <Input v-model="memberForm.mail" placeholder="请输入备注"></Input>
           </Form-item>
           </Col>
         </Row>
         <Row>
           <Col span="24">
           <Form-item label="联系地址" prop="mail">
-            <Input v-model="formValidate.mail" placeholder="请输入联系地址"></Input>
+            <Input v-model="memberForm.mail" placeholder="请输入联系地址"></Input>
           </Form-item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span="8" offset="8">
+          <Button type="primary" long>确定</Button>
           </Col>
         </Row>
       </Form>
@@ -129,9 +130,30 @@
   export default{
     data(){
       return {
-        formValidate: {},
-        ruleValidate: {}
+        memberForm: {},
+        memberValidate: {},
+        stadiumList: [],
+        memberCardList: [],
+
       }
+    },
+    methods: {
+      stadiumListHandler(){
+        this.$http.get('/stadium/allStadium').then(res=> {
+          this.stadiumList = res.data
+        })
+      },
+      memberCardListHandler(){
+        this.$http.get('/memberCard/cardList?stadiumId='+this.memberForm.stadiumId).then(res=>{
+          this.memberCardList=res.data
+        })
+      },
+      stadiumChangeHandler(){
+        this.memberCardListHandler()
+      }
+    },
+    created(){
+      this.stadiumListHandler()
     }
   }
 </script>
