@@ -9,7 +9,8 @@
       padding-left: 34px;
     }
   }
-  .private_class_page{
+
+  .private_class_page {
     line-height: 60px;
   }
 </style>
@@ -25,19 +26,42 @@
         <Button type="primary" icon="plus" @click="privateClassAddHandler()">创建</Button>
       </div>
     </div>
+    <Table :columns="privateClassColumns" :data="privateClassList"></Table>
   </div>
 </template>
 <script>
   export default{
     data(){
       return {
-        key:''
+        key: '',
+        privateClassList: [],
       }
     },
-    methods:{
+    methods: {
       //创建私教课程
       privateClassAddHandler(){
 
+      }
+    },
+    computed: {
+      privateClassColumns(){
+        let columns = []
+        columns.push({
+          title:'名称',
+          key:'name',
+          align:'center'
+        });
+        columns.push({
+          title:'教练',
+          key:'coachName',
+          align:'center'
+        });
+        columns.push({
+          title:'时长',
+          key:'classTime',
+          align:'center'
+        });
+        return columns;
       }
     }
   }
