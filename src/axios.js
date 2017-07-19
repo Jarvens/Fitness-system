@@ -10,7 +10,7 @@ import iView from 'iview'
  *  axios  request请求配置
  **/
 
-axios.defaults.baseURL = 'http://101.200.48.138:8088/Fitness'
+axios.defaults.baseURL = 'http://101.200.48.138/api'
 axios.defaults.headers['Content-Type'] = 'application/json;UTF-8'
 
 
