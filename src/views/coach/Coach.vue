@@ -187,7 +187,12 @@
         columns.push({
           title: '状态',
           key: 'status',
-          align: 'center'
+          align: 'center',
+          render:(h,param)=>{
+            let status = param.row.status
+            let text = status =='1'?'在职':'离职'
+            return ('span',text)
+          }
         });
         return columns;
       }
