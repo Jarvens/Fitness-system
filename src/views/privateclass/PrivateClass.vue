@@ -18,7 +18,7 @@
   <div>
     <div class="private_class_header">
       <div class="private_class_title">
-        私教
+        私教课程
       </div>
       <div class="private_class_search">
         <Input placeholder="请输入课程名称..." v-model="key" style="width: 300px"></Input>
