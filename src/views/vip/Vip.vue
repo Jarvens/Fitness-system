@@ -159,6 +159,11 @@
           align: 'center'
         });
         columns.push({
+          title:'场馆',
+          key:'stadiumName',
+          align:'center'
+        })
+        columns.push({
           title: '有效期',
           key: 'validDate',
           align: 'center',
