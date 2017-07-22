@@ -124,6 +124,7 @@
           title: '卡号',
           key: 'cardNo',
           align: 'center',
+          width:'140',
           render: (h, param)=> {
           return h('Button',{
             props:{
@@ -136,6 +137,7 @@
           title: '类型',
           key: 'type',
           align: 'center',
+          width:'130',
           render: (h, params) => {
             const row = params.row;
             const color = row.type === '1' ? 'blue' : row.type === '2' ? 'red' : row.type === '3' ? 'yellow' : row.type === '4' ? 'black' : row.type == '5' ? 'green' : '';
@@ -149,14 +151,16 @@
           }
         });
         columns.push({
-          title: '课程数(次)',
+          title: '课程(次)',
           key: 'classTotal',
-          align: 'center'
+          align: 'center',
+          width:'80'
         });
         columns.push({
           title: '金额(元)',
           key: 'money',
-          align: 'center'
+          align: 'center',
+          width:'80'
         });
         columns.push({
           title:'场馆',
@@ -167,7 +171,7 @@
           title: '有效期',
           key: 'validDate',
           align: 'center',
-          width:200
+          width:130
         });
         columns.push({
           title:'状态',
