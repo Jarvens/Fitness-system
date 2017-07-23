@@ -41,7 +41,7 @@
         console.log('搜索')
       },
       activityAddHandler(){
-        console.log('创建活动')
+        this.$router.push('activity-add')
       }
     }
   }

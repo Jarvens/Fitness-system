@@ -40,7 +40,7 @@
 
       },
       groupClassAddHandler(){
-
+        this.$router.push('group-class-add')
       }
     }
   }

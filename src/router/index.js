@@ -9,8 +9,10 @@ import Vip from '@/views/vip/Vip.vue'
 import Login from '@/components/login/Login.vue'
 import PrivateClass from '@/views/privateclass/PrivateClass.vue'
 import GroupClass from '@/views/groupclass/GroupClass'
+import GroupClassAdd from '@/views/groupclass/GroupClassAdd.vue'
 import Coach from '@/views/coach/Coach.vue'
 import Activity from '@/views/activity/Activity.vue'
+import ActivityAdd from '@/views/activity/ActivityAdd.vue'
 import News from '@/views/news/News.vue'
 import StatisticsMain from '@/views/statistics/StatisticsMain.vue'
 import Impression from '@/views/impression/Impression.vue'
@@ -78,7 +80,15 @@ export default new Router({
         name: 'group-class',
         meta: {
           title: '团体'
-        }, component: GroupClass
+        },
+        component: GroupClass
+      }, {
+        path: '/group-class-add',
+        name: 'group-class-add',
+        meta: {
+          title: '创建团课'
+        },
+        component: GroupClassAdd
       }, {
         path: '/coach',
         name: 'coach',
@@ -93,35 +103,44 @@ export default new Router({
           title: '活动'
         },
         component: Activity
-      }, {
-        path: '/news',
-        name: 'news',
-        meta: {
-          title: '发言'
-        },
-        component: News
-      }, {
-        path: '/statistics',
-        name: 'statistics',
-        meta: {
-          title: '统计'
-        },
-        component: StatisticsMain
-      }, {
-        path: '/impression',
-        name: 'impression',
-        meta: {
-          title: '印象'
-        },
-        component: Impression
-      }, {
-        path: '/meal',
-        name: 'meal',
-        meta: {
-          title: '餐饮'
-        },
-        component: Meal
-      }]
+      },
+        {
+          path: '/activity-add',
+          name: 'activity-add',
+          meta: {
+            title: '创建活动'
+          },
+          component: ActivityAdd
+        }
+        , {
+          path: '/news',
+          name: 'news',
+          meta: {
+            title: '发言'
+          },
+          component: News
+        }, {
+          path: '/statistics',
+          name: 'statistics',
+          meta: {
+            title: '统计'
+          },
+          component: StatisticsMain
+        }, {
+          path: '/impression',
+          name: 'impression',
+          meta: {
+            title: '印象'
+          },
+          component: Impression
+        }, {
+          path: '/meal',
+          name: 'meal',
+          meta: {
+            title: '餐饮'
+          },
+          component: Meal
+        }]
     }, {
       path: '/login',
       name: 'login',
